@@ -85,7 +85,7 @@ public class JavaFile {
         this.numR = numR;
     }
 
-    public ArrayList<Integer> getChgSet() {
+    public List<Integer> getChgSet() {
         return chgSet;
     }
 
