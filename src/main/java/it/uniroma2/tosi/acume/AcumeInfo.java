@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import static it.uniroma2.tosi.utils.CSV.acumeCSV;
+import static it.uniroma2.tosi.utils.RemoveDirectory.removeDir;
 import static java.lang.System.exit;
 import static java.util.logging.Level.INFO;
 import static java.util.logging.Level.SEVERE;
@@ -139,6 +140,9 @@ public class AcumeInfo {
             if (exitCode != 0) {
                 logger.log(SEVERE,"Errore nell'esecuzione dello script Python.");
             }
+
+            removeDir("output/acumeFiles");
+
         } catch (IOException e) {
             logger.log(SEVERE,"Errore nell'invocazione di ACUME");
             exit(1);
