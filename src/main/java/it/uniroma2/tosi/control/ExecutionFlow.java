@@ -52,7 +52,7 @@ public class ExecutionFlow {
             //con MovingWindow mi serve lavorare sui ticket in ordine temporale
             proportion(tickets); //calcolo la proportion
             removeInconsistentTickets(tickets); //rimuovo possibili incongruenze nei ticket che possono essersi formate
-            setTicketsAV(tickets); //genero la lista degli IV
+            setTicketsAV(tickets); //genero la lista degli injectedVersion
 
             linkCommits2Release(commits, releases, path); //lego commit e release in modo da poter capire quali sono i
             //file modificati in ogni release

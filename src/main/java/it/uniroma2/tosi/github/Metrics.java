@@ -3,10 +3,7 @@ package it.uniroma2.tosi.github;
 import it.uniroma2.tosi.entities.JavaFile;
 import it.uniroma2.tosi.entities.Release;
 import it.uniroma2.tosi.entities.Ticket;
-import static java.lang.System.exit;
-import static java.util.Collections.max;
 import org.eclipse.jgit.diff.DiffEntry;
-import static org.eclipse.jgit.diff.DiffEntry.ChangeType.*;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.lib.ObjectId;
@@ -16,8 +13,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
-import org.eclipse.jgit.treewalk.CanonicalTreeParser;
-import org.eclipse.jgit.treewalk.EmptyTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
@@ -32,6 +27,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static org.eclipse.jgit.diff.DiffEntry.ChangeType.DELETE;
+import static org.eclipse.jgit.diff.DiffEntry.ChangeType.MODIFY;
 
 public class Metrics {
     private static final String EXTENSION = ".java";
@@ -194,7 +192,7 @@ public class Metrics {
     }
 
     public static void checkBuggyness(List<Release> releaseList, List<Ticket> ticketList, String path) throws IOException {
-        //buggy definition: classi appartenenti all'insieme [IV,FV)
+        //buggy definition: classi appartenenti all'insieme [injectedVersion,fixedVersion)
         for (Ticket ticket : ticketList) //prendo elemento ticket appartenente a ticketList
         {
             List<Integer> av = ticket.getAV();
@@ -256,9 +254,9 @@ public class Metrics {
             if (diff.toString().contains(EXTENSION) && (type.equals(MODIFY) /*|| type.equals(DELETE)*/))
             {
 
-                /*Check BUGGY, releaseCommit è contenuta in AV? se si file relase è buggy.
-                // se AV vuota -> faccio nulla, file già buggyness = nO.
-                ELSE: file buggy se release commit appartiene a AV del ticket. Quindi prendo nome file, la release dalla lista, e setto buggy. */
+                /*Check BUGGY, releaseCommit è contenuta in affectedVersion? se si file relase è buggy.
+                // se affectedVersion vuota -> faccio nulla, file già buggyness = nO.
+                ELSE: file buggy se release commit appartiene a affectedVersion del ticket. Quindi prendo nome file, la release dalla lista, e setto buggy. */
 
                 String file;
                 if (diff.getChangeType() == DELETE /*|| diff.getChangeType() == DiffEntry.ChangeType.RENAME*/ )

@@ -8,19 +8,19 @@ import java.util.List;
 
 public class Ticket {
 
-    private Integer FV;
-    private List<Integer> AV;
-    private Integer IV;
+    private Integer fixedVersion;
+    private List<Integer> affectedVersion;
+    private Integer injectedVersion;
     private String id;
     private LocalDateTime openingDate;
-    private Integer OV;
+    private Integer openingVersion;
     private LocalDateTime resolutionDate;
     private List<RevCommit> commits=new ArrayList<>();
 
-    public Ticket(String id, LocalDateTime openingDate, Integer IV) {
+    public Ticket(String id, LocalDateTime openingDate, Integer injectedVersion) {
         this.id=id;
         this.openingDate=openingDate;
-        this.IV=IV;
+        this.injectedVersion=injectedVersion;
     }
 
     public void setCommits(List<RevCommit> commits) {
@@ -55,35 +55,35 @@ public class Ticket {
         return openingDate;
     }
 
-    public void setAV(List<Integer> AV) {
-        this.AV = AV;
+    public void setAV(List<Integer> affectedVersion) {
+        this.affectedVersion = affectedVersion;
     }
 
     public List<Integer> getAV() {
-        return AV;
+        return affectedVersion;
     }
 
-    public void setOV(Integer OV) {
-        this.OV = OV;
+    public void setOV(Integer openingVersion) {
+        this.openingVersion = openingVersion;
     }
 
     public Integer getOV() {
-        return OV;
+        return openingVersion;
     }
 
     public Integer getIV() {
-        return this.IV;
+        return this.injectedVersion;
     }
 
     public void setFV(Integer fv) {
-        this.FV = fv;
+        this.fixedVersion = fv;
     }
 
     public Integer getFV() {
-        return FV;
+        return fixedVersion;
     }
 
-    public void setIV(Integer IV) {
-        this.IV = IV;
+    public void setIV(Integer injectedVersion) {
+        this.injectedVersion = injectedVersion;
     }
 }

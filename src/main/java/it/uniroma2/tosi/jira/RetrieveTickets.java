@@ -34,7 +34,7 @@ public class RetrieveTickets {
         for (Release release : releases){
             releasesId.put(release.getId(), release);
         }
-        //Get JSON API for closed bugs w/ AV in the project
+        //Get JSON API for closed bugs w/ affectedVersion in the project
         do {
             //Only gets a max of 1000 at a time, so must do this multiple times if bugs >1000
             j = i + 1000;
@@ -56,7 +56,7 @@ public class RetrieveTickets {
                 if(affectedVersion.length()>0){
                     iv=affectedVersion.getJSONObject(0).getInt("id");
                     if(releasesId.containsKey(iv)) {
-                        iv = releasesId.get(iv).getIndex(); //se IV è l'indice va bene, se è l'ID commentare questa riga
+                        iv = releasesId.get(iv).getIndex(); //se injectedVersion è l'indice va bene, se è l'ID commentare questa riga
                     }else{
                         continue;
                     }
@@ -73,7 +73,7 @@ public class RetrieveTickets {
         for (Ticket ticket :
              tickets) {
             ticket.setOV(getOpeningVersion(ticket, releases));
-            ticket.setFV(getFixedVersion(ticket, releases));
+            ticket.setFV(getfixedVersion(ticket, releases));
         }
 
         return tickets;
@@ -98,7 +98,7 @@ public class RetrieveTickets {
         return null;
     }
 
-    private static Integer getFixedVersion(Ticket ticket, List<Release> releases){
+    private static Integer getfixedVersion(Ticket ticket, List<Release> releases){
         for (Release release : releases){
             if(ticket.getResolutionDate().compareTo(release.getReleaseDate())<0){
                 return release.getIndex();

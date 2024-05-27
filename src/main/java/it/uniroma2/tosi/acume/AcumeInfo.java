@@ -1,6 +1,7 @@
 package it.uniroma2.tosi.acume;
 
 import it.uniroma2.tosi.entities.AcumeEntry;
+import it.uniroma2.tosi.exception.NpofbException;
 import weka.classifiers.AbstractClassifier;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -12,7 +13,6 @@ import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static it.uniroma2.tosi.utils.CSV.acumeCSV;
@@ -29,7 +29,7 @@ public class AcumeInfo {
     private static String acumeOutputPath;
 
     private AcumeInfo() {
-        throw new IllegalStateException("Utility class");
+        throw new IllegalStateException("AcumeInfo class");
     }
 
     public static double getNpofb(String projectName, Instances testing, AbstractClassifier classifier) throws Exception{
@@ -63,7 +63,7 @@ public class AcumeInfo {
 
     }
 
-    private static double readNpofb20FromCsv() {
+    private static double readNpofb20FromCsv() throws NpofbException {
 
         String npofbValue="";
 
@@ -84,7 +84,7 @@ public class AcumeInfo {
             // Se non trovi la colonna "Npofb", esce
             if (npofbIndex == -1) {
 
-                throw new RuntimeException();
+                throw new NpofbException("Errore lettura colonna Npofb20 non trovata");
             }
 
             // Leggi il resto del file CSV e stampa i valori della colonna "Npofb"
@@ -96,12 +96,12 @@ public class AcumeInfo {
                 }
             }
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "Colonna 'Npofb' non trovata nel file CSV.");
+            logger.log(SEVERE, "Colonna 'Npofb' non trovata nel file CSV.");
             exit(1);
         }
 
         if(npofbValue.isEmpty()){
-            throw new RuntimeException();
+            throw new NpofbException("Errore");
         }
 
         return Double.parseDouble(npofbValue);
@@ -155,7 +155,7 @@ public class AcumeInfo {
             }
         }
 
-        throw new Exception();
+        throw new NpofbException("Errore nella lettura della predizione");
     }
 
     private static void getFilePath(){
