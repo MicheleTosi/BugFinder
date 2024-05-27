@@ -1,7 +1,6 @@
 package it.uniroma2.tosi.acume;
 
 import it.uniroma2.tosi.entities.AcumeEntry;
-import it.uniroma2.tosi.github.Metrics;
 import weka.classifiers.AbstractClassifier;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -12,7 +11,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -139,7 +137,7 @@ public class AcumeInfo {
 
             int exitCode = p.waitFor();
             if (exitCode != 0) {
-                logger.log(SEVERE,"Errore nell'esecuzione dello script Python. Codice di uscita: " + exitCode);
+                logger.log(SEVERE,"Errore nell'esecuzione dello script Python.");
             }
         } catch (IOException | InterruptedException e) {
             logger.log(SEVERE,"Errore nell'invocazione di ACUME");
