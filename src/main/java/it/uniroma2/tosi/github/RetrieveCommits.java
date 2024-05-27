@@ -1,5 +1,6 @@
 package it.uniroma2.tosi.github;
 
+import it.uniroma2.tosi.exception.RetrieveCommitsException;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Repository;
@@ -17,7 +18,7 @@ public class RetrieveCommits {
         throw new IllegalStateException("RetrieveCommits class");
     }
 
-    public static List<RevCommit> retrieveCommits(String path){
+    public static List<RevCommit> retrieveCommits(String path) throws RetrieveCommitsException {
         Iterable<RevCommit> commits;
         List<RevCommit> commitList=new ArrayList<>();
         try (Git git = Git.open((Path.of(path).toFile()))) {
@@ -26,7 +27,7 @@ public class RetrieveCommits {
                 commitList.add(commit);
             }
         } catch (IOException | GitAPIException e) {
-            throw new RuntimeException(e);
+            throw new RetrieveCommitsException("Errore mentre si recuperano i commit");
         }
         return commitList;
     }

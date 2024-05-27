@@ -1,6 +1,5 @@
 package it.uniroma2.tosi.utils;
 
-import it.uniroma2.tosi.acume.AcumeInfo;
 import it.uniroma2.tosi.entities.AcumeEntry;
 import it.uniroma2.tosi.entities.ClassifierEvaluation;
 import it.uniroma2.tosi.entities.JavaFile;
