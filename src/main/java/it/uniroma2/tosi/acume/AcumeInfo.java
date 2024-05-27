@@ -52,7 +52,7 @@ public class AcumeInfo {
 
         }
 
-        acumeCSV(projectName, acumeInputList);
+        acumeCSV(acumeInputList);
 
         getFilePath();
         invokePythonAcume();
@@ -139,7 +139,13 @@ public class AcumeInfo {
             if (exitCode != 0) {
                 logger.log(SEVERE,"Errore nell'esecuzione dello script Python.");
             }
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
+            logger.log(SEVERE,"Errore nell'invocazione di ACUME");
+            exit(1);
+        }catch (InterruptedException  e){
+            // Re-interrompe il thread corrente
+            Thread.currentThread().interrupt();
+
             logger.log(SEVERE,"Errore nell'invocazione di ACUME");
             exit(1);
         }

@@ -2,11 +2,14 @@ package it.uniroma2.tosi.exception;
 
 public class NpofbException extends Exception{
 
-    private String message;
-    public NpofbException(){}
+    private final String message;
 
     public NpofbException(String message){
         this.message=message;
     }
 
+    @Override
+    public String getMessage() {
+        return message;
+    }
 }

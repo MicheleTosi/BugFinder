@@ -20,6 +20,7 @@ import static java.util.Collections.max;
 
 public class CSV {
     private static final Logger logger = Logger.getLogger(CSV.class.getName());
+    private static final String ERRORE_OUTPUT="Errore nella creazione della cartella di output";
 
     private CSV() {
         throw new IllegalStateException("Utility class");
@@ -55,7 +56,7 @@ public class CSV {
     public static void buginessCSVCreator(int numRun,String projName, List<Release> releases){
         File subfolder=new File("output");
         if(!subfolder.mkdirs() && !subfolder.exists()){
-            logger.log(Level.SEVERE, "Errore nella creazione della cartella di output");
+            logger.log(Level.SEVERE, ERRORE_OUTPUT);
         }
 
         String outName = subfolder+File.separator+projName +"_"+numRun+"_BuginessInfo.csv";
@@ -130,7 +131,7 @@ public class CSV {
     public static void evaluationCsv(String projName, List<ClassifierEvaluation> classifierEvaluations) {
         File subfolder=new File("output");
         if(!subfolder.mkdirs() && !subfolder.exists()){
-            logger.log(Level.SEVERE, "Errore nella creazione della cartella di output");
+            logger.log(Level.SEVERE, ERRORE_OUTPUT);
         }
 
         String outName = subfolder+File.separator+projName.toLowerCase() +"Evaluation.csv";
@@ -177,10 +178,10 @@ public class CSV {
         }
     }
 
-    public static void acumeCSV(String projName, List<AcumeEntry> acumeEntries){
+    public static void acumeCSV(List<AcumeEntry> acumeEntries){
         File subfolder=new File("output/acumeFiles");
         if(!subfolder.mkdirs() && !subfolder.exists()){
-            logger.log(Level.SEVERE, "Errore nella creazione della cartella di output");
+            logger.log(Level.SEVERE, ERRORE_OUTPUT);
         }
 
         String outName = subfolder+File.separator+"Acume.csv";

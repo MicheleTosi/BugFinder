@@ -40,8 +40,7 @@ public class Metrics {
     }
 
     public static void getMetrics(Release release, Repository repo, List<JavaFile> javaFiles) {
-        //Git git=new Git(repository);
-        int index = release.getIndex();
+
         List<RevCommit> commits = release.getCommits();
         try (RevWalk rw = new RevWalk(repo)){
 
@@ -63,9 +62,7 @@ public class Metrics {
                 for (DiffEntry diff : diffs) {
                     int addedLines=0;
                     int deletedLines=0;
-                    if (diff.getNewPath().contains(EXTENSION) /*&& diff.getChangeType().equals(MODIFY) ||
-                            diff.getChangeType().equals(ADD)*/) {
-                        //com
+                    if (diff.getNewPath().contains(EXTENSION)) {
                         // Ottenere i cambiamenti di codice sorgente tra i due commit
                         String sourceCodeChanges = diffEntryToPatch(repo, diff);
                         // Dividi i cambiamenti in righe e controlla ogni riga
@@ -75,7 +72,7 @@ public class Metrics {
                             addedLines += countAddedLines(line);
                             deletedLines += countDeletedLines(line);
                         }
-                        //com
+
                         calculateMetrics(diff, javaFiles, commit, chgSet, addedLines, deletedLines);
                     }
                 }
@@ -233,11 +230,7 @@ public class Metrics {
             RevCommit parent = (RevCommit) commit.getParent(0).getId(); //prendo id parent
             diffs = diff.scan(parent.getTree(), commit.getTree()); //differenze tra alberi. E' del tipo DiffEntry[ADD/MODIFY/... pathfile]
 
-        } /*else {
-            assert repository != null;
-            RevWalk rw = new RevWalk(repository); //a RevWalk allows to walk over commits based on some filtering that is defined
-            diffs = diff.scan(new EmptyTreeIterator(), new CanonicalTreeParser(null, rw.getObjectReader(), commit.getTree())); //se un commit non ha un parent devo usare un emptytreeIterator.
-        }*/
+        }
 
 
         return diffs;
@@ -259,7 +252,7 @@ public class Metrics {
                 ELSE: file buggy se release commit appartiene a affectedVersion del ticket. Quindi prendo nome file, la release dalla lista, e setto buggy. */
 
                 String file;
-                if (diff.getChangeType() == DELETE /*|| diff.getChangeType() == DiffEntry.ChangeType.RENAME*/ )
+                if (diff.getChangeType() == DELETE)
                 {
                     file = diff.getOldPath(); //file modificato
                 }
