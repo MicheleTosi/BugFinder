@@ -16,8 +16,10 @@ public class ClassifierEvaluation {
     private double fp;
     private double tn;
     private double fn;
+    private double npofb;
 
-    public ClassifierEvaluation(String projName, int index, String classifier, boolean featureSelection, boolean sampling, boolean costSensitive) {
+    public ClassifierEvaluation(String projName, int index, String classifier, boolean featureSelection,
+                                boolean sampling, boolean costSensitive) {
         this.projName = projName;
         this.walkForwardIterationIndex = index;
         this.classifier = classifier;
@@ -34,6 +36,7 @@ public class ClassifierEvaluation {
         this.fp = 0;
         this.tn = 0;
         this.fn = 0;
+        this.npofb=0;
 
     }
 
@@ -232,4 +235,11 @@ public class ClassifierEvaluation {
     }
 
 
+    public double getNpofb() {
+        return npofb;
+    }
+
+    public void setNpofb(double npofb) {
+        this.npofb = npofb;
+    }
 }

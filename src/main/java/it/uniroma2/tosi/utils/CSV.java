@@ -1,5 +1,7 @@
 package it.uniroma2.tosi.utils;
 
+import it.uniroma2.tosi.acume.AcumeInfo;
+import it.uniroma2.tosi.entities.AcumeEntry;
 import it.uniroma2.tosi.entities.ClassifierEvaluation;
 import it.uniroma2.tosi.entities.JavaFile;
 import it.uniroma2.tosi.entities.Release;
@@ -134,7 +136,7 @@ public class CSV {
         String outName = subfolder+File.separator+projName.toLowerCase() +"Evaluation.csv";
         try (FileWriter fileWriter = new FileWriter(outName)) {
             fileWriter.append("DATASET,TRAIN_RELEASES,%TRAIN_INSTANCES,CLASSIFIER,FEATURE_SELECTION,BALANCING," +
-                    "COST_SENSITIVE,PRECISION,RECALL,AUC,KAPPA,TP,FP,TN,FN\n");
+                    "COST_SENSITIVE,PRECISION,RECALL,AUC,KAPPA,TP,FP,TN,FN,NPOFB20\n");
             for (ClassifierEvaluation eval : classifierEvaluations) {
                 fileWriter.append(projName);
                 fileWriter.append(",");
@@ -165,6 +167,33 @@ public class CSV {
                 fileWriter.append(String.valueOf(eval.getTn()));
                 fileWriter.append(",");
                 fileWriter.append(String.valueOf(eval.getFn()));
+                fileWriter.append(",");
+                fileWriter.append(String.valueOf(eval.getNpofb()));
+                fileWriter.append("\n");
+            }
+        }catch (Exception e){
+            logger.log(Level.SEVERE, e.getMessage());
+            exit(0);
+        }
+    }
+
+    public static void acumeCSV(String projName, List<AcumeEntry> acumeEntries){
+        File subfolder=new File("output/acumeFiles");
+        if(!subfolder.mkdirs() && !subfolder.exists()){
+            logger.log(Level.SEVERE, "Errore nella creazione della cartella di output");
+        }
+
+        String outName = subfolder+File.separator+"Acume.csv";
+        try (FileWriter fileWriter = new FileWriter(outName)) {
+            fileWriter.append("ID,Size,prob,actual\n");
+            for(AcumeEntry acumeEntry:acumeEntries){
+                fileWriter.append(String.valueOf(acumeEntry.getId()));
+                fileWriter.append(",");
+                fileWriter.append(String.valueOf(acumeEntry.getSize()));
+                fileWriter.append(",");
+                fileWriter.append(String.valueOf(acumeEntry.getPredictedProbability()));
+                fileWriter.append(",");
+                fileWriter.append(acumeEntry.getActualStringValue());
                 fileWriter.append("\n");
             }
         }catch (Exception e){

@@ -4,6 +4,7 @@ import it.uniroma2.tosi.entities.ClassifierEvaluation;
 import it.uniroma2.tosi.utils.CSV2Arff;
 import weka.attributeSelection.CfsSubsetEval;
 import weka.attributeSelection.GreedyStepwise;
+import weka.classifiers.AbstractClassifier;
 import weka.classifiers.Classifier;
 import weka.classifiers.CostMatrix;
 import weka.classifiers.bayes.NaiveBayes;
@@ -12,6 +13,7 @@ import weka.classifiers.lazy.IBk;
 import weka.classifiers.meta.CostSensitiveClassifier;
 import weka.classifiers.meta.FilteredClassifier;
 import weka.classifiers.trees.RandomForest;
+import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils;
 import weka.filters.Filter;
@@ -26,6 +28,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static it.uniroma2.tosi.acume.AcumeInfo.getNpofb;
+
 public class WekaInfo {
 
     private static final Logger logger = Logger.getLogger(WekaInfo.class.getName());
@@ -38,18 +42,23 @@ public class WekaInfo {
 
         List<ClassifierEvaluation> evaluationList=new ArrayList<>();
 
+        //lista dei classificatori utilizzati
         Classifier[] classifiers = new Classifier[]{
                 new RandomForest(),
                 new NaiveBayes(),
                 new IBk()
         };
         try {
+            //itero su tutte le release
             for (int i = 1; i < size; i++) {
                 int j = i + 100;
+                //genero un file per il training set
                 String fileName = projName + "_" + i + "_" + "BuginessInfo.csv";
+                //genero un file per il testing set
                 String fileName2 = projName + "_" + j + "_" + "BuginessInfo.csv";
                 String path = Paths.get("output", fileName).toString();
                 String path2 = Paths.get("output", fileName2).toString();
+                //converto il file csv in formato arff da utilizzare come input per Weka
                 String trainingPath=CSV2Arff.csv2Arff(path);
                 String testingPath=CSV2Arff.csv2Arff(path2);
 
@@ -71,6 +80,8 @@ public class WekaInfo {
                 for (Classifier classifier : classifiers) {
                     classifier.buildClassifier(training);
                     eval.evaluateModel(classifier, testing);
+
+                    //SIMPLE CLASSIFIER
                     ClassifierEvaluation simpleClassifier = new ClassifierEvaluation(projName, i,
                             classifier.getClass().getSimpleName(), false, false, false);
                     simpleClassifier.setTrainingPercent(100.0 * training.numInstances() / (training.numInstances() + testing.numInstances()));
@@ -82,6 +93,7 @@ public class WekaInfo {
                     simpleClassifier.setFp(eval.numFalsePositives(0));
                     simpleClassifier.setTn(eval.numTrueNegatives(0));
                     simpleClassifier.setFn(eval.numFalseNegatives(0));
+                    simpleClassifier.setNpofb(getNpofb(projName,testing, (AbstractClassifier) classifier));
                     evaluationList.add(simpleClassifier);
 
                     //VALIDATION WITH FEATURE SELECTION (GREEDY BACKWARD SEARCH) AND WITHOUT SAMPLING
@@ -110,6 +122,7 @@ public class WekaInfo {
                     featureSelClassifier.setRecall(eval.recall(0));
                     featureSelClassifier.setAuc(eval.areaUnderROC(0));
                     featureSelClassifier.setKappa(eval.kappa());
+                    featureSelClassifier.setNpofb(getNpofb(projName,filteredTesting, (AbstractClassifier) classifier));
                     featureSelClassifier.setTp(eval.numTruePositives(0));
                     featureSelClassifier.setFp(eval.numFalsePositives(0));
                     featureSelClassifier.setTn(eval.numTrueNegatives(0));
@@ -133,6 +146,7 @@ public class WekaInfo {
                             (filteredTraining.numInstances()+filteredTesting.numInstances()));
                     samplingClassifier.setPrecision(eval.precision(0));
                     samplingClassifier.setRecall(eval.recall(0));
+                    samplingClassifier.setNpofb(getNpofb(projName,filteredTesting, (AbstractClassifier) classifier));
                     samplingClassifier.setAuc(eval.areaUnderROC(0));
                     samplingClassifier.setKappa(eval.kappa());
                     samplingClassifier.setTp(eval.numTruePositives(0));
@@ -163,6 +177,7 @@ public class WekaInfo {
                     costSensClassifier.setKappa(eval.kappa());
                     costSensClassifier.setTp(eval.numTruePositives(0));
                     costSensClassifier.setFp(eval.numFalsePositives(0));
+                    costSensClassifier.setNpofb(getNpofb(projName,filteredTesting, (AbstractClassifier) classifier));
                     costSensClassifier.setTn(eval.numTrueNegatives(0));
                     costSensClassifier.setFn(eval.numFalseNegatives(0));
                     evaluationList.add(costSensClassifier);
