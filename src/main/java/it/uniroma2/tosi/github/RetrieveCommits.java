@@ -26,8 +26,10 @@ public class RetrieveCommits {
             for (RevCommit commit : commits) {
                 commitList.add(commit);
             }
-        } catch (IOException | GitAPIException e) {
-            throw new RetrieveCommitsException("Errore mentre si recuperano i commit");
+        } catch (IOException e) {
+            throw new RetrieveCommitsException("Errore nel recupero dei commit");
+        }catch(GitAPIException e){
+            throw new RetrieveCommitsException("Errore mnell'utilizzo delle GitAPI");
         }
         return commitList;
     }
