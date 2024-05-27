@@ -36,7 +36,7 @@ public class RetrieveCommits {
 
 
 
-    public static List<String> getJavaFilesChangedInCommit(RevCommit commit, Repository repository) throws Exception {
+    public static List<String> getJavaFilesChangedInCommit(RevCommit commit, Repository repository) throws IOException {
 
         List<String> javaFilesNames = new ArrayList<>();
         TreeWalk treeWalk = new TreeWalk(repository);
