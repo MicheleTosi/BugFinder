@@ -32,7 +32,7 @@ public class AcumeInfo {
         throw new IllegalStateException("AcumeInfo class");
     }
 
-    public static double getNpofb(String projectName, Instances testing, AbstractClassifier classifier) throws Exception{
+    public static double getNpofb(Instances testing, AbstractClassifier classifier) throws Exception{
         acumeInputList=new ArrayList<>();
 
         double npofb=0;

@@ -92,7 +92,7 @@ public class WekaInfo {
                     simpleClassifier.setFp(eval.numFalsePositives(0));
                     simpleClassifier.setTn(eval.numTrueNegatives(0));
                     simpleClassifier.setFn(eval.numFalseNegatives(0));
-                    simpleClassifier.setNpofb(getNpofb(projName,testing, (AbstractClassifier) classifier));
+                    simpleClassifier.setNpofb(getNpofb(testing, (AbstractClassifier) classifier));
                     evaluationList.add(simpleClassifier);
 
                     //VALIDATION WITH FEATURE SELECTION (GREEDY BACKWARD SEARCH) AND WITHOUT SAMPLING
@@ -121,7 +121,7 @@ public class WekaInfo {
                     featureSelClassifier.setRecall(eval.recall(0));
                     featureSelClassifier.setAuc(eval.areaUnderROC(0));
                     featureSelClassifier.setKappa(eval.kappa());
-                    featureSelClassifier.setNpofb(getNpofb(projName,filteredTesting, (AbstractClassifier) classifier));
+                    featureSelClassifier.setNpofb(getNpofb(filteredTesting, (AbstractClassifier) classifier));
                     featureSelClassifier.setTp(eval.numTruePositives(0));
                     featureSelClassifier.setFp(eval.numFalsePositives(0));
                     featureSelClassifier.setTn(eval.numTrueNegatives(0));
@@ -145,7 +145,7 @@ public class WekaInfo {
                             (filteredTraining.numInstances()+filteredTesting.numInstances()));
                     samplingClassifier.setPrecision(eval.precision(0));
                     samplingClassifier.setRecall(eval.recall(0));
-                    samplingClassifier.setNpofb(getNpofb(projName,filteredTesting, (AbstractClassifier) classifier));
+                    samplingClassifier.setNpofb(getNpofb(filteredTesting, (AbstractClassifier) classifier));
                     samplingClassifier.setAuc(eval.areaUnderROC(0));
                     samplingClassifier.setKappa(eval.kappa());
                     samplingClassifier.setTp(eval.numTruePositives(0));
@@ -176,7 +176,7 @@ public class WekaInfo {
                     costSensClassifier.setKappa(eval.kappa());
                     costSensClassifier.setTp(eval.numTruePositives(0));
                     costSensClassifier.setFp(eval.numFalsePositives(0));
-                    costSensClassifier.setNpofb(getNpofb(projName,filteredTesting, (AbstractClassifier) classifier));
+                    costSensClassifier.setNpofb(getNpofb(filteredTesting, (AbstractClassifier) classifier));
                     costSensClassifier.setTn(eval.numTrueNegatives(0));
                     costSensClassifier.setFn(eval.numFalseNegatives(0));
                     evaluationList.add(costSensClassifier);
