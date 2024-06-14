@@ -1,5 +1,8 @@
 package it.uniroma2.tosi.entities;
 
+import static it.uniroma2.tosi.utils.Costants.COST_FN;
+import static it.uniroma2.tosi.utils.Costants.COST_FP;
+
 public class ClassifierEvaluation {
     private String projName;
     private int walkForwardIterationIndex;
@@ -17,6 +20,7 @@ public class ClassifierEvaluation {
     private double tn;
     private double fn;
     private double npofb;
+    private long cost;
 
     public ClassifierEvaluation(String projName, int index, String classifier, boolean featureSelection,
                                 boolean sampling, boolean costSensitive) {
@@ -26,6 +30,7 @@ public class ClassifierEvaluation {
         this.featureSelection = featureSelection;
         this.sampling = sampling;
         this.costSensitive = costSensitive;
+        this.cost=0;
 
         this.trainingPercent = 0.0;
         this.precision = 0;
@@ -204,6 +209,7 @@ public class ClassifierEvaluation {
      */
     public void setFp(double fp) {
         this.fp = fp;
+        this.cost+=fp* COST_FP;
     }
 
     /**
@@ -232,6 +238,7 @@ public class ClassifierEvaluation {
      */
     public void setFn(double fn) {
         this.fn = fn;
+        this.cost+= COST_FN;
     }
 
 
@@ -241,5 +248,9 @@ public class ClassifierEvaluation {
 
     public void setNpofb(double npofb) {
         this.npofb = npofb;
+    }
+
+    public long getCost() {
+        return this.cost;
     }
 }

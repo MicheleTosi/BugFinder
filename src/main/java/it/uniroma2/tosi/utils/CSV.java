@@ -136,7 +136,7 @@ public class CSV {
         String outName = subfolder+File.separator+projName.toLowerCase() +"Evaluation.csv";
         try (FileWriter fileWriter = new FileWriter(outName)) {
             fileWriter.append("DATASET,TRAIN_RELEASES,%TRAIN_INSTANCES,CLASSIFIER,FEATURE_SELECTION,BALANCING," +
-                    "COST_SENSITIVE,PRECISION,RECALL,AUC,KAPPA,TP,FP,TN,FN,NPOFB20\n");
+                    "COST_SENSITIVE,PRECISION,RECALL,AUC,KAPPA,TP,FP,TN,FN,NPOFB20,COST\n");
             for (ClassifierEvaluation eval : classifierEvaluations) {
                 fileWriter.append(projName);
                 fileWriter.append(",");
@@ -169,6 +169,8 @@ public class CSV {
                 fileWriter.append(String.valueOf(eval.getFn()));
                 fileWriter.append(",");
                 fileWriter.append(String.valueOf(eval.getNpofb()));
+                fileWriter.append(",");
+                fileWriter.append(String.valueOf(eval.getCost()));
                 fileWriter.append("\n");
             }
         }catch (Exception e){
