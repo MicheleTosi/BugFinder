@@ -238,7 +238,7 @@ public class ClassifierEvaluation {
      */
     public void setFn(double fn) {
         this.fn = fn;
-        this.cost+= COST_FN;
+        this.cost+= fn*COST_FN;
     }
 
 
