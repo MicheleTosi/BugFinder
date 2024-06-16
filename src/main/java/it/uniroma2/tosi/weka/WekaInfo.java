@@ -161,8 +161,8 @@ public class WekaInfo {
                     eval=new Evaluation(testing);
                     CostMatrix costMatrix = new CostMatrix(2);
                     costMatrix.setCell(0, 0, 0.0);
-                    costMatrix.setCell(1, 0, 10.0);
-                    costMatrix.setCell(0, 1, 1.0);
+                    costMatrix.setCell(0, 1, 10.0);
+                    costMatrix.setCell(1, 0, 1.0);
                     costMatrix.setCell(1, 1, 0.0);
 
                     CostSensitiveClassifier csc = new CostSensitiveClassifier();
