@@ -74,9 +74,10 @@ public class WekaInfo {
                 training.setClassIndex(numAttr - 1);
                 testing.setClassIndex(numAttr - 1);
 
-                Evaluation eval = new Evaluation(testing);
+                Evaluation eval;
 
                 for (Classifier classifier : classifiers) {
+                    eval=new Evaluation(testing);
                     classifier.buildClassifier(training);
                     eval.evaluateModel(classifier, testing);
 
@@ -96,6 +97,7 @@ public class WekaInfo {
                     evaluationList.add(simpleClassifier);
 
                     //VALIDATION WITH FEATURE SELECTION (GREEDY BACKWARD SEARCH) AND WITHOUT SAMPLING
+                    eval=new Evaluation(testing);
                     CfsSubsetEval subsetEval = new CfsSubsetEval();
                     GreedyStepwise search = new GreedyStepwise();
                     search.setSearchBackwards(true);
@@ -129,6 +131,7 @@ public class WekaInfo {
                     evaluationList.add(featureSelClassifier);
 
                     //VALIDATION WITH FEATURE SELECTION (GREEDY BACKWARD SEARCH) AND WITH SAMPLING (UNDERSAMPLING)
+                    eval=new Evaluation(testing);
                     SpreadSubsample spreadSubsample = new SpreadSubsample();
                     spreadSubsample.setInputFormat(filteredTraining);
                     spreadSubsample.setOptions(new String[] {"-M", "1.0"});
@@ -155,6 +158,7 @@ public class WekaInfo {
                     evaluationList.add(samplingClassifier);
 
                     //VALIDATION WITH FEATURE SELECTION (GREEDY BACKWARD SEARCH) AND WITH SENSITIVE LEARNING (CFN = 10*CFP)
+                    eval=new Evaluation(testing);
                     CostMatrix costMatrix = new CostMatrix(2);
                     costMatrix.setCell(0, 0, 0.0);
                     costMatrix.setCell(1, 0, 10.0);

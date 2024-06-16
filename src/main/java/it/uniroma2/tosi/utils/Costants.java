@@ -7,6 +7,6 @@ public class Costants {
     }
 
     public static final long COST_FP =1;
-    public static final long COST_FN =3;
+    public static final long COST_FN =10;
 
 }
